@@ -1,0 +1,30 @@
+scores:
+  tgUrl: 20
+  url: 5
+  isABot: 40
+# TODO: add
+multipliers:
+  firstMsg: 2
+actions:
+  kick: 40
+  ban: 80
+wordlists:
+  exchanges:
+    score: 20
+    words:
+     - bitmex
+     - cryptopia
+  crypto-currencies:
+    score: 10
+    words:
+     - eth
+     - btc
+     - bch
+     - ltc
+     - doge
+  generic-words:
+    score: 5
+    words:
+     - airdrop
+     - giveaway
+     - group
