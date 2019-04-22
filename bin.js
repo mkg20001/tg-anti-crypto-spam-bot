@@ -55,7 +55,7 @@ bot.on('text', (msg) => {
 
   let urls = msg.text.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gmi)
   let words = msg.text.match(/\w+/gmi).map(w => w.toLowerCase())
-  let hasTGUrl = msg.text.contains('t.me/joinchat')
+  let hasTGUrl = msg.text.indexOf('t.me/joinchat') !== -1
 
   let forbiddenWords = wordlist.filter(({word}) => words.indexOf(word) !== -1)
 
