@@ -28,10 +28,10 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mkg20001/tg-sticker-convert-bot.git"
+    "url": "git+https://github.com/mkg20001/tg-anti-crypto-spam-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/mkg20001/tg-sticker-convert-bot/issues"
+    "url": "https://github.com/mkg20001/tg-anti-crypto-spam-bot/issues"
   },
-  "homepage": "https://github.com/mkg20001/tg-sticker-convert-bot#readme"
+  "homepage": "https://github.com/mkg20001/tg-anti-crypto-spam-bot#readme"
 }
