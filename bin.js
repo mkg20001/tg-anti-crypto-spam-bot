@@ -80,7 +80,7 @@ const handle = (msg) => {
 
   if (actions.del <= score) {
     let uniq = sha2(msg.chat_id + '@' + msg.message_id)
-    msg.reply.text(`Deleted crypto spam because score ${score} - If this was a mistake then create an issue here https://github.com/mkg20001/tg-anti-crypto-spam-bot/issues/new?title=[wrongful%20deletion]%20${uniq}`, {render_web: false})
+    msg.reply.text(`Deleted crypto spam because score ${score} - If this was a mistake then create an issue here https://github.com/mkg20001/tg-anti-crypto-spam-bot/issues/new?title=[wrongful%20deletion]%20${uniq}`, {webPreview: false})
     bot.deleteMessage(msg.chat.id, msg.message_id)
     collect({score, text: msg.text, data: {words, urls, forbiddenWords, forbiddenUrls, hasTGUrl}, id: uniq})
   }
