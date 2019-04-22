@@ -26,7 +26,7 @@ const log = pino({name: 'tg-crypto-spam-bot'})
 const wordlist = []
 const {scores, actions} = config
 
-const db = fs.createWriteStream('captures.json', {flags: 'a'})
+const db = fs.createWriteStream(process.env.CAPTURE_FILE || 'captures.json', {flags: 'a'})
 const collect = (data) => db.write(JSON.stringify(data) + '\n')
 
 for (const group in config.wordlists) {
