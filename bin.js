@@ -61,7 +61,7 @@ bot.on('text', (msg) => {
 
   let score = forbiddenWords.reduce((a, b) => a + b.score, 0) +
     (scores.isABot * msg.from.is_bot) +
-    (scores.url * urls.length) +
+    (scores.url * (urls || []).length) +
     (scores.tgUrl * hasTGUrl)
 
   // msg.reply.text(JSON.stringify({urls, words, hasTGUrl, score}))
