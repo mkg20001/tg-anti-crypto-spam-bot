@@ -9,11 +9,18 @@ actions:
   del: 40
   kick: 80
   ban: 100
+urllists:
+  exchanges:
+    score: 20
+    domains:
+      - bittrex.com
+      - cryptopia.com
 wordlists:
   exchanges:
     score: 20
     words:
      - bitmex
+     - bittrex
      - cryptopia
   crypto-currencies:
     score: 10
@@ -29,3 +36,5 @@ wordlists:
      - airdrop
      - giveaway
      - group
+     - pump
+     - coin
