@@ -6,8 +6,9 @@ scores:
 multipliers:
   firstMsg: 2
 actions:
-  kick: 40
-  ban: 80
+  del: 40
+  kick: 80
+  ban: 100
 wordlists:
   exchanges:
     score: 20
