@@ -1,6 +1,6 @@
 {
   "name": "tg-anti-crypto-spam-bot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Helps you get rid of crypto SPAM in you group",
   "bin": {
     "tg-anti-crypto-spam-bot": "bin.js"
