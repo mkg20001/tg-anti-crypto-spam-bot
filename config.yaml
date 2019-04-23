@@ -9,6 +9,7 @@ actions:
   del: 40
   kick: 80
   ban: 100
+  ban2dayFactor: 50
 urllists:
   exchanges:
     score: 20

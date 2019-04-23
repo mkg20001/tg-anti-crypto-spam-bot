@@ -8,6 +8,8 @@ const path = require('path')
 const fs = require('fs')
 const crypto = require('crypto')
 const sha2 = (str) => crypto.createHash('sha256').update(str).digest('hex')
+const DAY = 24 * 3600
+const MONTH = 30 * DAY
 
 const TeleBot = require('telebot')
 const bot = new TeleBot(process.argv[2])
@@ -54,8 +56,16 @@ bot.on = (ev, fnc, ...a) => {
 
 bot.on(['/start', '/hello'], (msg) => msg.reply.text('This bot helps you to get rid of crypto spam in your group!', {webPreview: false}))
 
-const handle = (msg) => {
-  if (msg.type === 'private') {
+const memberTypeInnocence = {
+  creator: -50,
+  administrator: -50,
+  member: 0,
+  restricted: 5
+  // left and kicked can't chat
+}
+
+const handle = async (msg) => {
+  if (msg.chat.type === 'private') {
     return
   }
 
@@ -66,6 +76,10 @@ const handle = (msg) => {
   if (!msg.text) {
     msg.text = ''
   }
+
+  let member = await bot.getChatMember(msg.chat.id, msg.from.id)
+  let isAdmin = member.status === 'creator' || member.status === 'administrator'
+  let innocence = memberTypeInnocence[member.status]
 
   let urls = msg.text.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gmi) || []
   let words = msg.text.match(/\w+/gmi).map(w => w.toLowerCase())
@@ -79,7 +93,8 @@ const handle = (msg) => {
     forbiddenUrls.reduce((a, b) => a + b.score, 0) +
     (scores.isABot * msg.from.is_bot) +
     (scores.url * urls.length) +
-    (scores.tgUrl * hasTGUrl)
+    (scores.tgUrl * hasTGUrl) +
+    innocence
 
   if (process.env.NODE_ENV !== 'production') {
     console.log(msg) // eslint-disable-line no-console
@@ -88,13 +103,17 @@ const handle = (msg) => {
 
   if (actions.del <= score) {
     let uniq = sha2(msg.chat_id + '@' + msg.message_id)
-    msg.reply.text(`Deleted crypto spam because score ${score} - If this was a mistake then create an issue here https://github.com/mkg20001/tg-anti-crypto-spam-bot/issues/new?title=[wrongful%20deletion]%20${uniq}`, {webPreview: false})
-    bot.deleteMessage(msg.chat.id, msg.message_id)
+    await msg.reply.text(`Deleted crypto spam because score ${score} - If this was a mistake then create an issue here https://github.com/mkg20001/tg-anti-crypto-spam-bot/issues/new?title=[wrongful%20deletion]%20${uniq}`, {webPreview: false})
+    await bot.deleteMessage(msg.chat.id, msg.message_id)
     collect({score, text: msg.text, data: {words, urls, forbiddenWords, forbiddenUrls, hasTGUrl}, id: uniq})
   }
 
-  if (actions.ban <= score) {
-  } else if (actions.kick <= score) {
+  if (!isAdmin) {
+    if (actions.ban <= score) {
+      await bot.kickChatMember(msg.chat.id, member.user.id, {untilDate: Math.floor(DAY * (score / config.ban2dayFactor))})
+    } else if (actions.kick <= score) {
+      await bot.kickChatMember(msg.chat.id, member.user.id)
+    }
   }
 }
 
