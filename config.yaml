@@ -21,6 +21,7 @@ wordlists:
     words:
      - bitmex
      - bittrex
+     - bitrex
      - cryptopia
   crypto-currencies:
     score: 10

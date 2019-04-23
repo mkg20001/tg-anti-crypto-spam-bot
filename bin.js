@@ -59,6 +59,14 @@ const handle = (msg) => {
     return
   }
 
+  if (!msg.text && msg.caption) {
+    msg.text = msg.caption
+  }
+
+  if (!msg.text) {
+    msg.text = ''
+  }
+
   let urls = msg.text.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gmi) || []
   let words = msg.text.match(/\w+/gmi).map(w => w.toLowerCase())
   let hasTGUrl = msg.text.indexOf('t.me/joinchat') !== -1
@@ -92,5 +100,7 @@ const handle = (msg) => {
 
 bot.on('forward', handle)
 bot.on('text', handle)
+bot.on('document', handle)
+bot.on('photo', handle)
 
 bot.start()
